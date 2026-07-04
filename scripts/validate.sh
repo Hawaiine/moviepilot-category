@@ -126,7 +126,7 @@ else
 fi
 echo ""
 
-# ─── 4. 项目结构完整性 ───
+# ── 结构完整性 ──
 echo "── 结构完整性 ──"
 for req in config/category.yaml docs/reference.md scripts/validate.sh VERSION; do
   if [[ -f "$REPO_DIR/$req" ]]; then
