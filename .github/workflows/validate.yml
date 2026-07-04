@@ -21,5 +21,8 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install dependencies
+        run: python3 -m pip install pyyaml --quiet
+
       - name: Run validation
         run: bash scripts/validate.sh config/category.yaml
