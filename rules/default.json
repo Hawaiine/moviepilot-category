@@ -172,7 +172,7 @@
   {
     "id": "live",
     "name": "现场",
-    "rule_string": "CNSUB & 4K > CNSUB & 1080P > 4K > 1080P > !",
+    "rule_string": "CNSUB & 4K > CNSUB & 1080P > 4K > 1080P",
     "media_type": "电影",
     "category": "现场"
   }
