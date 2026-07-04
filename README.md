@@ -1,183 +1,199 @@
-# moviepilot-category
+# 🎬 moviepilot-category
 
-MoviePilot v2 二级分类策略配置 — 开箱即用、贴近中文用户习惯。
+> MoviePilot v2 二级分类策略配置 — **开箱即用 · 贴近中文用户 · 持续追踪上游**
 
-## 特点
+[![validate](https://github.com/Hawaiine/moviepilot-category/actions/workflows/validate.yml/badge.svg)](https://github.com/Hawaiine/moviepilot-category/actions/workflows/validate.yml)
+[![sync-upstream](https://github.com/Hawaiine/moviepilot-category/actions/workflows/sync-upstream.yml/badge.svg)](https://github.com/Hawaiine/moviepilot-category/actions/workflows/sync-upstream.yml)
+[![release](https://github.com/Hawaiine/moviepilot-category/actions/workflows/release.yml/badge.svg)](https://github.com/Hawaiine/moviepilot-category/actions/workflows/release.yml)
+![VERSION](https://img.shields.io/badge/MP-v2.10.7-blue)
+![LICENSE](https://img.shields.io/badge/license-MIT-green)
 
-- ✅ **完整覆盖** — 电影/剧集/动漫/纪录片/综艺/儿童/现场 全品类
-- ✅ **最新官方规范** — 支持 `release_year`、`!` 排除语法、`production_countries`（电影）
-- ✅ **兜底回退** — 未匹配的分类自动归入「未分类」
-- ✅ **中文用户优先** — 国漫、日番、港台、国产剧、日韩剧等中文场景全覆盖
-- ✅ **字典速查** — 附赠 genre/language/country 速查表
-- ✅ **校验+CI** — 本地脚本验证 + GitHub Actions 自动校验
-- ✅ **上游追踪** — 定时对比官方配置变更，自动创建 Issue
+---
 
-## 快速开始
+## ✨ 它有什么特别的？
 
-### 方式一：直接复制
+| 特点 | 说明 |
+|------|------|
+| 🎯 **全品类覆盖** | 电影/剧集/动漫/纪录片/综艺/儿童/现场，一个不落 |
+| 🔄 **上游追踪** | 每天自动对比官方 `category.yaml`，有变就通知你 |
+| 🧪 **自动校验** | push 就跑 CI，YAML 语法、字段合法性、死分类全检查 |
+| 🚀 **一键发布** | 打 tag 自动生成 Release + changelog |
+| 🧩 **不止于分类** | 还带了优先级规则 + 识别词库，拿来即用 |
+
+---
+
+## 🏃 30 秒上手
+
+把配置放进去就行：
 
 ```bash
+# 方式一：直接复制
 cp config/category.yaml /path/to/moviepilot/config/category.yaml
-```
 
-在 MoviePilot WebUI 中重启或重载配置即可生效。
-
-### 方式二：Git 同步（推荐）
-
-```bash
+# 方式二：git 管理（推荐，以后 git pull 就能更新）
 cd /path/to/moviepilot/config
 git clone https://github.com/Hawaiine/moviepilot-category.git .
 ```
 
-后续更新直接 `git pull` 即可。
+然后到 MoviePilot WebUI **重启** 或 **重载配置**，搞定。🎉
 
-## 目录结构
+---
+
+## 📂 看看里面有什么
 
 ```
 moviepilot-category/
-├── VERSION                         ← 当前对应的 MoviePilot 版本
-├── config/
-│   └── category.yaml               ← 二级分类策略（核心文件）
-├── rules/
-│   └── default.json                ← 优先级规则（搜索/订阅/洗版）
-├── words/
-│   └── common-words.txt            ← 自定义识别词共享库
-├── docs/
-│   └── reference.md                ← 字典速查表 + 配置说明
-├── scripts/
-│   ├── validate.sh                 ← YAML 语法校验 + 结构检查
-│   └── sync-upstream.sh            ← 检测 MP 上游版本变更
-├── .github/
-│   ├── workflows/
-│   │   ├── validate.yml            ← CI: 校验 YAML（含 Node.js + Python）
-│   │   ├── sync-upstream.yml       ← CI: 每日检测上游版本变更
-│   │   └── release.yml             ← CI: tag push 自动发布 Release
-│   └── workflows/README.md         ← CI 工作流说明
-└── README.md
+├── 📄 VERSION                          ← 当前对应的 MoviePilot 版本
+├── 📁 config/
+│   └── 📄 category.yaml                ← 🎯 二级分类策略（核心！）
+├── 📁 rules/
+│   └── 📄 default.json                 ← ⚖️ 优先级规则（搜索/订阅/洗版）
+├── 📁 words/
+│   └── 📄 common-words.txt             ← 🔤 自定义识别词共享库
+├── 📁 docs/
+│   └── 📄 reference.md                 ← 📖 字典速查表 + 配置说明
+├── 📁 scripts/
+│   ├── 📄 validate.sh                  ← 🔍 YAML 语法校验 + 结构检查
+│   └── 📄 sync-upstream.sh             ← 🔄 检测 MP 上游变更
+├── 📁 .github/
+│   └── 📁 workflows/
+│       ├── 📄 validate.yml             ← 🤖 CI: 自动校验
+│       ├── 📄 sync-upstream.yml        ← 🤖 CI: 每日检测上游
+│       └── 📄 release.yml              ← 🤖 CI: tag 自动发布
+│       └── 📄 README.md                ← 🤖 CI 工作流说明
+├── 📄 README.md                        ← 👈 就这个文件
+└── 📄 LICENSE                          ← ⚖️ MIT 开源
 ```
 
-## 分类策略说明
+---
 
-### 匹配规则
+## 🎮 分类策略说明书
 
-- 配置按 **从上到下依次匹配**，匹配到第一个符合条件的即停
-- 同个分类下的多个条件为 **与** 关系
-- 同个条件内的多个值（逗号分隔）为 **或** 关系
-- `!` 前缀表示排除该值
-
-### 电影分类（`movie`）
-
-| 二级目录 | 匹配条件 | 说明 |
-|----------|----------|------|
-| 动画电影 | genre_ids 包含 16 | Animation |
-| 华语电影 | original_language 为 zh/cn/bo/za | 中文语种 |
-| 港台电影 | production_countries 为 HK/TW | 香港/台湾 |
-| 现场 | genre_ids 包含 10402 + original_language 为 ja/ko | 日韩演唱会/Live BD（必须在日韩电影前） |
-| 音乐电影 | genre_ids 包含 10402 + 非 ja/ko | 爱乐之城等音乐题材（已在现场之后） |
-| 日韩电影 | production_countries 为 JP/KP/KR | 日本/韩国 |
-| 外语电影 | production_countries 为欧美国家 | 英文/欧语种兜底 |
-| 未分类 | 无条件 | 最终兜底 |
-
-各分类按**从上到下**顺序匹配：
+### 🧠 匹配规则
 
 ```
-动画电影 → 华语电影 → 港台电影 → 现场 → 音乐电影 → 日韩电影 → 外语电影 → 未分类
+从上到下 ⇩  依次匹配，谁先命中谁带走
+同一个分类里 → 多个条件是「且」
+同一个条件里 → 逗号分隔是「或」
+! 前缀 → 排除！
 ```
 
-> **注意**：「现场」必须排在「日韩电影」前，否则日韩演唱会被日韩国家先行命中；
-> 「音乐电影」跟在「现场」之后并用 `!original_language: ja,ko` 排除，日韩语 10402 归现场，外语 10402 归音乐电影。
+### 🎥 电影分类（`movie`）
 
-### 剧集分类（`tv`）
+```
+动 画 电 影  →  华 语 电 影  →  港 台 电 影  →  现 场  →  音 乐 电 影  →  日 韩 电 影  →  外 语 电 影  →  未 分 类
+```
 
-| 二级目录 | 匹配条件 | 说明 |
-|----------|----------|------|
-| 国漫 | genre_ids=16 + origin_country=CN/TW/HK | 国产动漫 |
-| 日番 | genre_ids=16 + origin_country=JP | 日本动漫 |
-| 欧美动漫 | genre_ids=16 + origin_country=US/FR/GB/... | 欧美动漫 |
-| 纪录片 | genre_ids=99 | Documentary |
-| 儿童 | genre_ids=10762 | Kids |
-| 综艺 | genre_ids=10764,10767 | Variety/Talk |
-| 国产剧 | origin_country=CN | 中国大陆（用 `!origin_country: HK,TW` 排除港台） |
-| 港台剧 | origin_country=HK,TW | 港台地区 |
-| 日剧 | origin_country=JP | 日本 |
-| 韩剧 | origin_country=KP,KR | 韩国 |
-| 东南亚剧 | origin_country=TH/IN/SG/VN/MY/PH | 东南亚 |
-| 欧美剧 | origin_country=US/FR/GB/... | 欧美国家 |
-| 未分类 | 无条件 | 最终兜底 |
+| 二级目录 | 匹配条件 | 🎬 举个例子 |
+|----------|----------|------------|
+| 🐉 **动画电影** | `genre_ids` 包含 16 | 你的名字、千与千寻 |
+| 🀄 **华语电影** | `original_language` = `zh,cn,bo,za` | 流浪地球、让子弹飞 |
+| 🏯 **港台电影** | `production_countries` = `HK,TW` | 无间道、那些年 |
+| 🎤 **现场/演唱会** | `genre_ids` = 10402 + `ja,ko` | 宇多田光 Live、BTS 演唱会 |
+| 🎵 **音乐电影** | `genre_ids` = 10402 + 非 `ja,ko` | 爱乐之城、波西米亚狂想曲 |
+| 🇯🇵🇰🇷 **日韩电影** | `production_countries` = `JP,KP,KR` | 寄生虫、天气之子 |
+| 🌍 **外语电影** | 欧美国家兜底 | 阿凡达、盗梦空间 |
+| ❓ **未分类** | 以上都不匹配 | 奇奇怪怪的统统归这里 |
+
+> ⚠️ **顺序很重要！** 「现场」必须在「日韩电影」前面，不然日韩演唱会被当成日韩电影了🤦
+
+### 📺 剧集分类（`tv`）
 
 ```
 国漫 → 日番 → 欧美动漫 → 纪录片 → 儿童 → 综艺 → 国产剧 → 港台剧 → 日剧 → 韩剧 → 东南亚剧 → 欧美剧 → 未分类
 ```
 
-## 优先级规则（rules/）
+| 二级目录 | 匹配条件 | 🎬 举个例子 |
+|----------|----------|------------|
+| 🇨🇳 **国漫** | `genre_ids`=16 + `origin_country`=`CN,TW,HK` | 一人之下、时光代理人 |
+| 🇯🇵 **日番** | `genre_ids`=16 + `origin_country`=`JP` | 进击的巨人、间谍过家家 |
+| 🌎 **欧美动漫** | `genre_ids`=16 + 欧美国家 | 瑞克和莫蒂、英雄联盟双城之战 |
+| 🎬 **纪录片** | `genre_ids`=99 | 地球脉动、舌尖上的中国 |
+| 👶 **儿童** | `genre_ids`=10762 | 小猪佩奇、汪汪队立大功 |
+| 🎪 **综艺** | `genre_ids`=10764,10767 | 奔跑吧、极限挑战 |
+| 🏮 **国产剧** | `origin_country`=`CN` | 狂飙、漫长的季节 |
+| 🌉 **港台剧** | `origin_country`=`HK,TW` | 繁花、想见你 |
+| 🍣 **日剧** | `origin_country`=`JP` | 轮到你了、非自然死亡 |
+| 🥘 **韩剧** | `origin_country`=`KP,KR` | 鱿鱼游戏、黑暗荣耀 |
+| 🏝️ **东南亚剧** | `origin_country`=`TH,IN,SG,...` | 泰剧、印度剧等 |
+| 🌍 **欧美剧** | 欧美国家 | 权力的游戏、绝命毒师 |
+| ❓ **未分类** | 兜底 | 不知道啥的放这儿 |
 
-`rules/default.json` 定义了按资源质量排序的优先级规则，覆盖：
+---
 
-- **电影**：动画电影、华语电影、外语电影、现场
-- **剧集**：日番、国漫、欧美漫、纪录片、综艺、国产剧、欧美剧、日韩剧
-- **全局过滤**：排除低质量组（SubsPlease、TELESYNC 等）
-- **制作组白名单**：AnimeGroup、Audiences、Crunchyroll、Netflix 等
+## ⚖️ 优先级规则
 
-优先级规则直接在 MoviePilot「设定 → 自定义规则」中导入即可。
+`rules/default.json` 定义了哪些资源"更好"，下载时优先选它。
 
-## 识别词（words/）
+**涵盖的分类规则：**
+- 🎞️ 电影类：动画电影、华语电影、外语电影、现场
+- 📺 剧集类：日番、国漫、欧美漫、纪录片、综艺、国产剧、欧美剧、日韩剧
 
-`words/common-words.txt` 是共享词库，包含：
-
-- 通用屏蔽词（CMCT、HDSWEB、CHDBits 等水印）
-- 常见替换规则（BluRay → Blu-ray、WEB-DL → WEBDL 等）
-- 集数定位模板（第<>话、第<>集、EP<> 等）
-
-可在 MoviePilot「设定 → 词表」中导入使用。
-
-## 上游同步
-
-本仓库基于 [jxxghp/MoviePilot](https://github.com/jxxghp/MoviePilot) 官方默认配置增强而来。
-
-GitHub Actions **每天 UTC 02:00** 自动拉取官方 `main` 分支的 `category.yaml` 做 diff 对比。发现差异时自动创建 Issue，附带详细差异和上游链接。
-
-### 增强项（同步时需保留）
-
-- **Music 分离**：现场（日韩 ja/ko）vs 音乐电影（非日韩）
-- **儿童分类**：`genre_ids=10762` 单独分类
-- **东南亚剧**：TH/IN/SG/VN/MY/PH 单独分类
-- **港台剧/国产剧分离**：用 `!` 排除语法避免重叠
-- **未分类兜底**：每级分类末尾保留空值兜底
-- **`production_countries`**（电影）vs `origin_country`（剧集）正确区分
-
-### 手动同步
-
-```bash
-# 拉取官方最新配置并对比
-bash scripts/sync-upstream.sh
+**🔍 搜索时的偏好：**
+```
+4K + 原盘/Bluray > 4K + WEB-DL > 1080P + Bluray > 1080P + WEB-DL > 1080P > 720P
 ```
 
-## 本地校验
+**🚫 全局黑名单（自动过滤低质量资源）：**
+`(?i)SubsPlease|TELESYNC|HDTV|NTb|...`
+
+**怎么导入？** MP WebUI → **设定 → 自定义规则** → 导入
+
+---
+
+## 🔤 识别词库
+
+`words/common-words.txt` 解决资源命名不规范问题：
+
+| 类型 | 示例 | 有什么用 |
+|------|------|---------|
+| ❌ **屏蔽词** | `CMCT`、`HDSWEB` | 从资源名里删掉这些水印词 |
+| 🔄 **替换** | `BluRay => Blu-ray` | 统一写法 |
+| 🎯 **集数定位** | `第<>话 >> 0` | 让 MP 知道集数在哪 |
+
+**怎么导入？** MP WebUI → **设定 → 词表** → 粘贴
+
+---
+
+## 🔄 上游同步
+
+这个仓库基于 [jxxghp/MoviePilot](https://github.com/jxxghp/MoviePilot) 官方配置做了增强。
+
+**GitHub Actions 每天 UTC 02:00 🤖 自动：**
+1. 📥 拉取官方 `category.yaml`
+2. 🔍 和本地对比（忽略注释空行）
+3. 📢 发现差异 → 自动创建 Issue
+
+**对比与我增强的部分（同步时不会被覆盖）：**
+
+- 🎤 **Music 分离** — 现场（日韩 ja/ko）vs 音乐电影（非日韩）
+- 👶 **儿童单独分类** — `genre_ids=10762`
+- 🏝️ **东南亚剧** — TH/IN/SG/VN/MY/PH
+- 🏯 **港台剧/国产剧分离** — 用 `!` 排除避免重叠
+- 🛡️ **兜底分类** — 每级末尾保留空值 fallback
+- 🆚 **正确区分** — movie 用 `production_countries`，tv 用 `origin_country`
+
+## 🧪 本地校验
 
 ```bash
 bash scripts/validate.sh config/category.yaml
 ```
 
-校验内容：
-- YAML 语法正确性
-- 二级分类兜底是否为空（未分类）
-- 字典字段合法性（匹配官方 Wiki 定义）
-- rules/*.json JSON 语法
-- words/*.txt 格式
+会检查：YAML 语法 ✅ | 兜底空值 ✅ | 字段合法性 ✅ | JSON ✅ | TXT 格式 ✅
 
-## 安全说明
+## 🔐 安全说明
 
-- 本项目不包含任何 API Key、Token、密码等凭证
-- CI 中的 `GH_TOKEN` 通过 GitHub Secrets 传入，不写入代码
-- 建议 fork 后自行设置 `GH_TOKEN` Secret 以开启自动 Issue 功能
+- 🔒 本项目 **不含任何 API Key、Token、密码**
+- 🔑 `GH_TOKEN` 只通过 GitHub Secrets 传入，不写进代码
+- ✅ 建议设置 `GH_TOKEN` Secret 以开启自动 Issue 功能
 
-## 相关链接
+## 📚 相关链接
 
-- [MoviePilot 官方 Wiki](https://wiki.movie-pilot.org/advanced)
-- [TMDB 电影 API](https://developer.themoviedb.org/reference/movie-details)
-- [TMDB 剧集 API](https://developer.themoviedb.org/reference/tv-series-details)
-- [MoviePilot GitHub](https://github.com/jxxghp/MoviePilot)
+- 📖 [MoviePilot 官方 Wiki](https://wiki.movie-pilot.org/advanced)
+- 🎬 [TMDB 电影 API](https://developer.themoviedb.org/reference/movie-details)
+- 📺 [TMDB 剧集 API](https://developer.themoviedb.org/reference/tv-series-details)
+- 🐙 [MoviePilot GitHub](https://github.com/jxxghp/MoviePilot)
 
-## License
+## ⚖️ License
 
-MIT
+MIT — 随便用，随便改 ✌️
