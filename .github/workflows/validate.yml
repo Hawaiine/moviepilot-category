@@ -5,10 +5,13 @@ on:
     paths:
       - 'config/category.yaml'
       - 'scripts/validate.sh'
+      - 'scripts/validate.mjs'
   pull_request:
     paths:
       - 'config/category.yaml'
       - 'scripts/validate.sh'
+      - 'scripts/validate.mjs'
+  workflow_dispatch:
 
 jobs:
   validate:
@@ -16,13 +19,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: 安装 Node.js 最新 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: 安装 Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
-      - name: Install dependencies
-        run: python3 -m pip install pyyaml --quiet
+      - name: 安装依赖
+        run: |
+          python3 -m pip install pyyaml --quiet
+          corepack enable
 
-      - name: Run validation
+      - name: 执行校验
         run: bash scripts/validate.sh config/category.yaml
