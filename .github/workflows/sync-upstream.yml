@@ -1,0 +1,25 @@
+name: sync-upstream
+
+on:
+  schedule:
+    # 每天北京时间 10:00（UTC 02:00）检查一次
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  check-upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Check upstream version
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          chmod +x scripts/sync-upstream.sh
+          bash scripts/sync-upstream.sh || true

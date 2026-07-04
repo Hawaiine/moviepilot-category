@@ -1,0 +1,179 @@
+[
+  {
+    "id": "filterMovie",
+    "name": "filterMovie",
+    "include": "",
+    "exclude": "",
+    "size_range": "0-22000",
+    "seeders": ""
+  },
+  {
+    "id": "filterSeries",
+    "name": "filterSeries",
+    "include": "",
+    "exclude": "",
+    "size_range": "0-4096",
+    "seeders": ""
+  },
+  {
+    "id": "AnimeGroup",
+    "name": "AnimeGroup",
+    "include": "7³ACG|VCB-Studio",
+    "exclude": "",
+    "size_range": ""
+  },
+  {
+    "id": "Audiences",
+    "name": "Audiences",
+    "include": "ADE|ADWeb",
+    "exclude": "",
+    "seeders": ""
+  },
+  {
+    "id": "HHWEB",
+    "name": "HHWEB",
+    "include": "HHWEB",
+    "exclude": "",
+    "size_range": ""
+  },
+  {
+    "id": "Crunchyroll",
+    "name": "Crunchyroll",
+    "include": "CR|Crunchyroll",
+    "exclude": "",
+    "size_range": ""
+  },
+  {
+    "id": "Netflix",
+    "name": "Netflix",
+    "include": "Netflix|NF",
+    "exclude": "",
+    "size_range": ""
+  },
+  {
+    "id": "B-Global",
+    "name": "B-Global",
+    "include": "B-Global|BG",
+    "exclude": "",
+    "size_range": ""
+  },
+  {
+    "id": "AMZN",
+    "name": "AMZN",
+    "include": "AMZN|Amazon",
+    "exclude": "",
+    "size_range": ""
+  },
+  {
+    "id": "HQ",
+    "name": "HQ",
+    "include": "HQ|高码|EDR",
+    "exclude": "",
+    "size_range": ""
+  },
+  {
+    "id": "DDP",
+    "name": "DDP",
+    "include": "DDP",
+    "exclude": "",
+    "size_range": ""
+  },
+  {
+    "id": "Complete",
+    "name": "Complete",
+    "include": "(全|共)\\d(集|期)|完结|合集|Complete",
+    "exclude": ""
+  },
+  {
+    "id": "filterGlobal",
+    "name": "filterGlobal",
+    "include": "",
+    "exclude": "(?i)SubsPlease|Up to 21°C|VARYG|TELESYNC|NTb|sGnb|BHYS|HDSWEB|DBD|HDH|COLLECTiVE|SRVFI|HDSPad",
+    "size_range": "",
+    "seeders": ""
+  },
+  {
+    "id": "animation-movie",
+    "name": "动画电影",
+    "rule_string": "SPECSUB & 4K & BLURAY & H265 > CNSUB & 4K & BLURAY & H265 > CNSUB & 4K & BLURAY > CNSUB & 1080P & BLURAY > CNSUB & 4K > CNSUB & 1080P",
+    "media_type": "电影",
+    "category": "动画电影"
+  },
+  {
+    "id": "chinese-movie",
+    "name": "华语电影",
+    "rule_string": "4K & BLURAY & H265 > 1080P & BLURAY > 4K > 1080P",
+    "media_type": "电影",
+    "category": "华语电影"
+  },
+  {
+    "id": "foreign-movie",
+    "name": "外语电影",
+    "rule_string": "SPECSUB & 4K & BLURAY & H265 &filterMovie > CNSUB & 4K & BLURAY & H265 &filterMovie > CNSUB & 1080P & BLURAY &filterMovie > CNSUB & 4K &filterMovie > CNSUB & 1080P &filterMovie",
+    "media_type": "电影",
+    "category": "外语电影"
+  },
+  {
+    "id": "japanese-anime",
+    "name": "日番",
+    "rule_string": "AnimeGroup& CNSUB & BLURAY & 1080P > Audiences& H265 & BLURAY & 1080P > Audiences&AMZN&HHWEB& CNSUB & 1080P > Audiences&Crunchyroll& CNSUB & 1080P > Audiences&Netflix&HHWEB& CNSUB & 1080P > Audiences&B-Global& 4K & CNSUB > Audiences&B-Global& 1080P & CNSUB > Audiences&HHWEB& CNSUB & 1080P > CNSUB & BLURAY & 1080P > 1080P & CNSUB > 1080P",
+    "media_type": "电视剧",
+    "category": "日番"
+  },
+  {
+    "id": "western-anime",
+    "name": "欧美漫",
+    "rule_string": "AnimeGroup& CNSUB & BLURAY & 1080P > Audiences& H265 & BLURAY & 1080P > Audiences&AMZN&HHWEB& CNSUB & 1080P > Audiences&Crunchyroll& CNSUB & 1080P > Audiences&Netflix&HHWEB& CNSUB & 1080P > Audiences&B-Global& 4K & CNSUB > Audiences&B-Global& 1080P & CNSUB > Audiences&HHWEB& CNSUB & 1080P > CNSUB & BLURAY & 1080P > 1080P & CNSUB > 1080P",
+    "media_type": "电视剧",
+    "category": "欧美漫"
+  },
+  {
+    "id": "chinese-anime",
+    "name": "国漫",
+    "rule_string": "4K &Audiences&HHWEB&DDP> 4K &Audiences&HHWEB> 1080P &Audiences&HHWEB> 4K > 1080P > 720P",
+    "media_type": "电视剧",
+    "category": "国漫"
+  },
+  {
+    "id": "documentary",
+    "name": "纪录片",
+    "rule_string": "4K & BLURAY > 1080P & BLURAY > 4K > 1080P",
+    "media_type": "电视剧",
+    "category": "纪录片"
+  },
+  {
+    "id": "variety",
+    "name": "综艺",
+    "rule_string": "4K & WEBDL &Complete > 4K & WEBDL &HHWEB > WEBDL & 1080P &HHWEB > 4K & WEBDL &Audiences > 1080P &Audiences& WEBDL > 1080P",
+    "media_type": "电视剧",
+    "category": "综艺"
+  },
+  {
+    "id": "chinese-series",
+    "name": "国产剧",
+    "rule_string": "4K & WEBDL &HQ > 4K & WEBDL > 4K & WEBDL > 1080P > 720P",
+    "media_type": "电视剧",
+    "category": "国产剧"
+  },
+  {
+    "id": "western-series",
+    "name": "欧美剧",
+    "rule_string": "SPECSUB & 1080P & BLURAY &filterSeries > 1080P & WEBDL & CNSUB &filterSeries > CNSUB &filterSeries",
+    "media_type": "电视剧",
+    "category": "欧美剧"
+  },
+  {
+    "id": "japanese-series",
+    "name": "日韩剧",
+    "rule_string": "SPECSUB & 1080P & BLURAY &filterSeries > CNSUB & 1080P &filterSeries > 1080P & CNSUB &filterSeries > CNSUB &filterSeries",
+    "media_type": "电视剧",
+    "category": "日韩剧"
+  },
+  {
+    "id": "live",
+    "name": "现场",
+    "rule_string": "CNSUB & 4K > CNSUB & 1080P > 4K > 1080P > !",
+    "media_type": "电影",
+    "category": "现场"
+  }
+]

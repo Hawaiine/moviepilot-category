@@ -1,0 +1,113 @@
+# ============================================================
+# MoviePilot v2 二级分类策略配置
+# 基于最新官方规范 (wiki.movie-pilot.org/advanced)
+# ============================================================
+#
+# 匹配规则：
+#   - 按从上到下依次匹配，命中第一个即停
+#   - 同个分类下多个条件 = 与关系
+#   - 同个条件逗号分隔 = 或关系
+#   - ! 前缀 = 排除该值
+#
+# 官方参考：
+#   - Wiki: https://wiki.movie-pilot.org/advanced
+#   - Movie API: https://developer.themoviedb.org/reference/movie-details
+#   - TV API: https://developer.themoviedb.org/reference/tv-series-details
+# ============================================================
+
+# ==================== 电影 ====================
+movie:
+  # 动画电影 — genre_ids 16 (Animation)
+  动画电影:
+    genre_ids: '16'
+
+  # 华语电影 — 中文语种（含藏语 bo、粤语 za）
+  华语电影:
+    original_language: 'zh,cn,bo,za'
+
+  # 港台电影 — production_countries HK/TW（用!排除 CN，避免被华语电影命中后也命中这里）
+  港台电影:
+    production_countries: 'HK,TW'
+    '!origin_country': 'CN'
+
+  # 现场/演唱会 — 日韩语 + Music 类型，典型如演唱会录音、Live BD
+  # 必须在「日韩电影」之前，否则会被日韩国家先行命中
+  # 如果英文演唱会也很多，可把 en 加进 original_language
+  现场:
+    genre_ids: '10402'
+    original_language: 'ja,ko'
+
+  # 音乐电影 — 非日韩的音乐题材影片，如爱乐之城、波西米亚狂想曲
+  # 日韩语的 10402 已在上面的「现场」命中，这里用 ! 排除
+  音乐电影:
+    genre_ids: '10402'
+    '!original_language': 'ja,ko'
+
+  # 日韩电影 — 日韩国家（放在现场/音乐电影之后，避免演唱会被误归）
+  日韩电影:
+    production_countries: 'JP,KP,KR'
+
+  # 外语电影 — 欧美国等（兜底）
+  外语电影:
+    production_countries: 'US,FR,GB,DE,ES,IT,NL,PT,RU,AU,CA,NZ'
+
+  # 未分类 — 最终兜底
+  未分类:
+
+# ==================== 电视剧 ====================
+tv:
+  # 国漫 — 动画 + 中港台 origin
+  国漫:
+    genre_ids: '16'
+    origin_country: 'CN,TW,HK'
+
+  # 日番 — 动画 + 日本
+  日番:
+    genre_ids: '16'
+    origin_country: 'JP'
+
+  # 欧美动漫 — 动画 + 欧美国家
+  欧美动漫:
+    genre_ids: '16'
+    origin_country: 'US,FR,GB,DE,ES,IT,NL,PT,RU,AU,CA,NZ'
+
+  # 纪录片 — genre_ids 99 (Documentary)
+  纪录片:
+    genre_ids: '99'
+
+  # 儿童 — genre_ids 10762 (Kids)
+  儿童:
+    genre_ids: '10762'
+
+  # 综艺 — genre_ids 10764, 10767 (Talk/Reality)
+  综艺:
+    genre_ids: '10764,10767'
+
+  # 国产剧 — 中国大陆（用 ! 排除 CN 被港台剧命中）
+  国产剧:
+    origin_country: 'CN'
+    '!origin_country': 'HK,TW'
+
+  # 港台剧 — 港台地区（不含大陆）
+  港台剧:
+    origin_country: 'HK,TW'
+    '!origin_country': 'CN'
+
+  # 日剧
+  日剧:
+    origin_country: 'JP'
+
+  # 韩剧 — 朝鲜半岛
+  韩剧:
+    origin_country: 'KP,KR'
+
+  # 东南亚剧 — 泰国、印度、新加坡、越南、马来西亚
+  东南亚剧:
+    origin_country: 'TH,IN,SG,VN,MY,PH'
+
+  # 欧美剧 — 欧美国家
+  欧美剧:
+    origin_country: 'US,FR,GB,DE,ES,IT,NL,PT,RU,AU,CA,NZ'
+
+  # 未分类 — 最终兜底
+  未分类:

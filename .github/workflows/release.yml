@@ -1,0 +1,62 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # 获取上一个 tag
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [[ -z "$PREV_TAG" ]]; then
+            CHANGELOG="## 首次发布"
+          else
+            CHANGELOG=$(git log --pretty=format:'- %s (%h)' "$PREV_TAG..HEAD" -- config/category.yaml rules/ words/ 2>/dev/null || echo "- 更新配置")
+          fi
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          body: |
+            ## MoviePilot 二级分类策略配置 ${{ github.ref_name }}
+
+            ${{ steps.changelog.outputs.changelog }}
+
+            ### 安装
+
+            ```bash
+            # 方式一：直接下载
+            curl -Lo category.yaml https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/config/category.yaml
+
+            # 方式二：Git 克隆
+            git clone https://github.com/${{ github.repository }}.git moviepilot-config
+            cp moviepilot-config/config/category.yaml /path/to/moviepilot/config/
+            ```
+
+            ### 文件清单
+
+            | 文件 | 说明 |
+            |------|------|
+            | `config/category.yaml` | 二级分类策略 |
+            | `rules/default.json` | 优先级规则 |
+            | `words/common-words.txt` | 识别词共享库 |
+            | `docs/reference.md` | 字典速查表 |
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
