@@ -33,14 +33,14 @@ if [[ ! -f "$YAML_FILE" ]]; then
 fi
 info "文件存在: $YAML_FILE"
 
-python3 << 'PYEOF'
+python3 - "$YAML_FILE" << 'PYEOF'
 import yaml, sys, re
 
 VALID_FIELDS = {'genre_ids', 'original_language', 'production_countries', 'origin_country', 'release_year'}
 VALID_PREFIXED = {'!origin_country', '!original_language', '!production_countries'}
 ALL_VALID = VALID_FIELDS | VALID_PREFIXED
 
-file = '/opt/data/moviepilot-category/config/category.yaml'
+file = sys.argv[1]
 with open(file) as f:
     data = yaml.safe_load(f)
 
