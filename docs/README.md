@@ -1,7 +1,10 @@
-# docs — 参考文档
+# 部署参考
 
-| 文件 | 说明 |
-|------|------|
-| `reference.md` | 字典速查表（genre_ids、语言代码、国家代码、分类顺序注意事项） |
+## Docker 部署
 
-> 编写分类策略时请参阅 `reference.md` 中的 TMDB 字段字典。
+`../docker/compose.example.yaml` 是通用模板，按需修改路径后使用。
+
+## 软链接映射（可选）
+
+如果你用下载工具（qBittorrent/transmission）下载后需要整理到媒体库，
+可以用软链接把下载目录映射到媒体库目录。

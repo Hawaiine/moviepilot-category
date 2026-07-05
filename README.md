@@ -50,8 +50,12 @@ moviepilot-category/
 │   └── 📄 default.json                 ← ⚖️ 优先级规则（搜索/订阅/洗版）
 ├── 📁 words/
 │   └── 📄 common-words.txt             ← 🔤 自定义识别词共享库
+├── 📁 docker/
+│   └── 📄 compose.example.yaml         ← 🐳 Docker 部署模板（按需修改）
 ├── 📁 docs/
-│   └── 📄 reference.md                 ← 📖 字典速查表 + 配置说明
+│   ├── 📄 reference.md                 ← 📖 字典速查表
+│   ├── 📄 deployment.md                ← 🚀 部署参考 + 软链接映射
+│   └── 📄 README.md                    ← 📖 文档说明
 ├── 📁 scripts/
 │   ├── 📄 validate.sh                  ← 🔍 YAML 语法校验 + 结构检查
 │   └── 📄 sync-upstream.sh             ← 🔄 检测 MP 上游变更

@@ -1,0 +1,34 @@
+# MoviePilot v2 Docker 部署示例
+# 按需修改路径后使用，不要直接提交到 git
+# 参考：https://wiki.movie-pilot.org/installation
+
+version: '3.3'
+services:
+  moviepilot:
+    stdin_open: true
+    tty: true
+    container_name: moviepilot
+    hostname: moviepilot
+    network_mode: host
+
+    volumes:
+      # 配置文件目录（category.yaml 放这里）
+      - '/PATH/TO/config:/config'
+      # 媒体库根目录
+      - '/PATH/TO/media:/media'
+      # Playwright 缓存
+      - '/PATH/TO/cache:/moviepilot/.cache/ms-playwright'
+      # Docker socket（用于目录监控插件）
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+
+    environment:
+      - 'NGINX_PORT=3000'
+      - 'PORT=3001'
+      - 'PUID=0'
+      - 'PGID=0'
+      - 'UMASK=000'
+      - 'TZ=Asia/Shanghai'
+      - 'SUPERUSER=admin'
+
+    restart: always
+    image: jxxghp/moviepilot-v2:latest
